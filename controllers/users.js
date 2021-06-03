@@ -7,6 +7,8 @@ const NotFoundError = require('../errors/not-found-err');
 const InvalidAuthError = require('../errors/invalid-auth-err');
 const MongoConflictError = require('../errors/mongo-conflict-err');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 module.exports.createUser = (req, res, next) => {
   const {
     email, password, name,
@@ -38,7 +40,7 @@ module.exports.login = (req, res, next) => {
     .then((user) => {
       // аутентификация прошла успешно, пользователь в переменной user
 
-      const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
 
       res.send({ token });
     })

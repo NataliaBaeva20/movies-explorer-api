@@ -8,10 +8,14 @@ const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
+const { NODE_ENV, DATA_BASE } = process.env;
+require('dotenv').config();
 const app = express();
 
+
+
 // подключение к серверу mongo
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+mongoose.connect(NODE_ENV === 'production' ? DATA_BASE : 'mongodb://localhost:27017/bitfilmsdb', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
