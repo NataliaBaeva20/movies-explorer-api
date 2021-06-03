@@ -1,8 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const { errors } = require('celebrate');
 
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+const errorHandler = require('./middlewares/error-handler');
+const { signupValidavor, loginValidator } = require('./middlewares/validation');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -16,26 +19,15 @@ mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
 
 app.use(express.json());
 
-app.use('/signup', createUser);
-app.use('/signin', login);
+app.use('/signup', signupValidavor, createUser);
+app.use('/signin', loginValidator, login);
 
 app.use(auth);
 
 app.use('/users', require('./routes/users'));
 app.use('/movies', require('./routes/movies'));
 
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-
-  res
-    .status(statusCode)
-    .send({
-      message: statusCode === 500
-        ? 'На сервере произошла ошибка'
-        : message,
-    });
-
-  next();
-});
+app.use(errors()); // обработчик ошибок celebrate
+app.use(errorHandler);
 
 app.listen(PORT);
