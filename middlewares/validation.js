@@ -25,7 +25,8 @@ const userInfoValidavor = celebrate({
 
 const idValidator = celebrate({
   params: Joi.object().keys({
-    id: Joi.string().required().alphanum().length(24).hex(),
+    id: Joi.string().required().alphanum().length(24)
+      .hex(),
   }),
 });
 
@@ -37,19 +38,19 @@ const movieValidator = celebrate({
     year: Joi.string().required(),
     description: Joi.string().required(),
     image: Joi.string().required().custom((value, helpers) => {
-      if(validator.isURL(value)) {
+      if (validator.isURL(value)) {
         return value;
       }
       return helpers.message('Невалидная ссылка');
     }),
     trailer: Joi.string().required().custom((value, helpers) => {
-      if(validator.isURL(value)) {
+      if (validator.isURL(value)) {
         return value;
       }
       return helpers.message('Невалидная ссылка');
     }),
     thumbnail: Joi.string().required().custom((value, helpers) => {
-      if(validator.isURL(value)) {
+      if (validator.isURL(value)) {
         return value;
       }
       return helpers.message('Невалидная ссылка');
@@ -65,5 +66,5 @@ module.exports = {
   loginValidator,
   userInfoValidavor,
   idValidator,
-  movieValidator
+  movieValidator,
 };

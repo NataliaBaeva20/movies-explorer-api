@@ -23,7 +23,7 @@ module.exports.createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.name === 'MongoError' && err.code === 11000) {
-        throw new MongoConflictError('Указанный email занят другим пользователем');
+        throw new MongoConflictError('Пользователь с таким email уже существует');
       } else if (err.name === 'ValidationError') {
         throw new BadRequestError('Переданы некорректные данные');
       }
@@ -51,7 +51,7 @@ module.exports.getCurrentUser = (req, res, next) => {
   User.findOne({ _id: req.user._id })
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Запрашиваемый пользователь не найден');
+        throw new NotFoundError('Пользователь не найден');
       }
       res.send(user);
     })
@@ -76,7 +76,7 @@ module.exports.updateUser = (req, res, next) => {
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'MongoError' && err.code === 11000) {
-        throw new MongoConflictError('Указанный email занят другим пользователем');
+        throw new MongoConflictError('Пользователь с таким email уже существует');
       } else if (err.name === 'ValidationError') {
         throw new BadRequestError('Переданы некорректные данные');
       }

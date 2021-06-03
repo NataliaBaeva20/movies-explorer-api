@@ -44,14 +44,14 @@ module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params.id)
     .then((movie) => {
       if (!movie) {
-        throw new NotFoundError('Карточка не найдена');
+        throw new NotFoundError('Фильм не найден');
       } else if (movie.owner._id.toString() === req.user._id) {
         Movie.findByIdAndRemove(req.params.id)
           .then((deleteMovie) => {
             res.send(deleteMovie);
           });
       } else {
-        throw new ForbiddenError('У вас нет прав на удаление этой карточки');
+        throw new ForbiddenError('У вас нет прав на удаление фильма другого пользователя');
       }
     })
     .catch((err) => {
