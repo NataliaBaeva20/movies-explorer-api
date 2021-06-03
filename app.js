@@ -1,6 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+const { login, createUser } = require('./controllers/users');
+const auth = require('./middlewares/auth');
+
 const { PORT = 3000 } = process.env;
 const app = express();
 
@@ -11,15 +14,12 @@ mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
   useFindAndModify: false,
 });
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: '60b7fa473224d92758d4d449', // вставьте сюда _id созданного в предыдущем пункте пользователя
-  };
-
-  next();
-});
-
 app.use(express.json());
+
+app.use('/signup', createUser);
+app.use('/signin', login);
+
+app.use(auth);
 
 app.use('/users', require('./routes/users'));
 app.use('/movies', require('./routes/movies'));
