@@ -1,3 +1,0 @@
-NODE_ENV=production
-JWT_SECRET=e51237f705577a9d0a1b6500cea5db7b3a28e7720763da59a754e0c28f2d11e6
-DATA_BASE=mongodb://localhost:27017/bitfilmsdb
