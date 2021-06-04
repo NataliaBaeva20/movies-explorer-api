@@ -41,12 +41,12 @@ module.exports.createMovie = (req, res, next) => {
 };
 
 module.exports.deleteMovie = (req, res, next) => {
-  Movie.findById(req.params.id)
+  Movie.findById(req.params._id)
     .then((movie) => {
       if (!movie) {
         throw new NotFoundError('Фильм не найден');
       } else if (movie.owner._id.toString() === req.user._id) {
-        Movie.findByIdAndRemove(req.params.id)
+        Movie.findByIdAndRemove(req.params._id)
           .then((deleteMovie) => {
             res.send(deleteMovie);
           });

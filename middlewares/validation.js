@@ -25,7 +25,7 @@ const userInfoValidavor = celebrate({
 
 const idValidator = celebrate({
   params: Joi.object().keys({
-    id: Joi.string().required().alphanum().length(24)
+    _id: Joi.string().required().alphanum().length(24)
       .hex(),
   }),
 });
