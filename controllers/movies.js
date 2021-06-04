@@ -55,7 +55,6 @@ module.exports.deleteMovie = (req, res, next) => {
       }
     })
     .catch((err) => {
-      console.log(err.name);
       if (err.name === 'CastError') {
         throw new BadRequestError('Переданы некорректные данные');
       }
