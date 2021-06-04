@@ -4,7 +4,6 @@ const User = require('../models/user');
 
 const BadRequestError = require('../errors/bad-request-err');
 const NotFoundError = require('../errors/not-found-err');
-const InvalidAuthError = require('../errors/invalid-auth-err');
 const MongoConflictError = require('../errors/mongo-conflict-err');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
@@ -44,9 +43,7 @@ module.exports.login = (req, res, next) => {
 
       res.send({ token });
     })
-    .catch(() => {
-      next(new InvalidAuthError('Необходима авторизация'));
-    });
+    .catch(next);
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
