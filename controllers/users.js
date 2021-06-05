@@ -27,6 +27,8 @@ module.exports.createUser = (req, res, next) => {
         throw new MongoConflictError('Пользователь с таким email уже существует');
       } else if (err.name === 'ValidationError') {
         throw new BadRequestError('Переданы некорректные данные');
+      } else {
+        next(err);
       }
     })
     .catch(next);

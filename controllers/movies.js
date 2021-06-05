@@ -30,7 +30,20 @@ module.exports.createMovie = (req, res, next) => {
     nameRU,
     nameEN,
   })
-    .then((movie) => res.send(movie))
+    .then((movie) => res.send({
+      _id: movie._id,
+      country: movie.country,
+      director: movie.director,
+      duration: movie.duration,
+      year: movie.year,
+      description: movie.description,
+      image: movie.image,
+      trailer: movie.trailer,
+      thumbnail: movie.thumbnail,
+      movieId: movie.movieId,
+      nameRU: movie.nameRU,
+      nameEN: movie.nameEN,
+    }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         throw new BadRequestError('Переданы некорректные данные');
@@ -41,12 +54,12 @@ module.exports.createMovie = (req, res, next) => {
 };
 
 module.exports.deleteMovie = (req, res, next) => {
-  Movie.findById(req.params._id)
+  Movie.findById(req.params._id).select('+owner')
     .then((movie) => {
       if (!movie) {
         throw new NotFoundError('Фильм не найден');
       } else if (movie.owner._id.toString() === req.user._id) {
-        Movie.findByIdAndRemove(req.params._id)
+        Movie.findByIdAndRemove(req.params._id).select('-owner')
           .then((deleteMovie) => {
             res.send(deleteMovie);
           });
