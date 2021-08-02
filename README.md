@@ -23,4 +23,5 @@
 <br />
 <hr>
 
-*[Ссылка на сервер](https://api.my-movies.nomoredomains.club)*
+### Ссылки на готовый проект
+*[Ссылка на серверную часть](https://api.my-movies.nomoredomains.club)*

@@ -7,7 +7,7 @@ const router = require('./routes/index');
 const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 5000 } = process.env;
 const { NODE_ENV, DATA_BASE } = process.env;
 require('dotenv').config();
 
